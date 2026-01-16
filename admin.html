@@ -43,6 +43,134 @@
             }
         }
 
+        /* LOGIN PAGE STYLES */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            padding: 60px 50px;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            width: 100%;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: 800;
+            margin: 0 auto 24px;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .login-header h1 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        .login-header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(59, 130, 246, 0.5);
+        }
+
+        .error-message {
+            display: none;
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid #ef4444;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* ADMIN DASHBOARD STYLES */
+        #adminDashboard {
+            display: none;
+        }
+
+        #adminDashboard.active {
+            display: block;
+        }
+
         header {
             background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
             color: white;
@@ -123,6 +251,24 @@
         .user-details p {
             font-size: 13px;
             opacity: 0.9;
+        }
+
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: #ef4444;
+            border-color: #ef4444;
+            transform: translateY(-2px);
         }
 
         .container {
@@ -557,6 +703,10 @@
         }
 
         @media (max-width: 768px) {
+            .login-box {
+                padding: 40px 30px;
+            }
+
             .container {
                 padding: 30px 20px;
             }
@@ -602,113 +752,145 @@
 </head>
 
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo-section">
-                <div class="logo-img">IME</div>
-                <div class="logo-text">
-                    <h1>I.M.E Plastic</h1>
-                    <p>Contact Management System</p>
-                </div>
+    <!-- LOGIN PAGE -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-logo">IME</div>
+                <h1>Admin Login</h1>
+                <p>I.M.E Plastic Management</p>
             </div>
-            <div class="user-info">
-                <div class="user-details">
-                    <h3>Admin User</h3>
-                    <p>Administrator</p>
+
+            <div class="error-message" id="errorMessage">
+                ❌ Invalid password. Please try again.
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Admin Password</label>
+                    <input type="password" id="passwordInput" placeholder="Enter admin password" required autofocus>
                 </div>
-                <div class="user-avatar">AU</div>
+                <button type="submit" class="login-btn">🔓 Login to Dashboard</button>
+            </form>
+
+            <div style="margin-top: 30px; padding: 20px; background: #f1f5f9; border-radius: 12px; text-align: center;">
+                <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">Default Password:</p>
+                <p style="font-size: 16px; font-weight: 700; color: #1e40af; font-family: monospace;">admin@123</p>
             </div>
         </div>
-    </header>
+    </div>
 
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div>
-                        <div class="stat-number" id="totalCount">0</div>
-                        <div class="stat-label">Total Messages</div>
-                        <div class="stat-change">↑ All time</div>
+    <!-- ADMIN DASHBOARD -->
+    <div id="adminDashboard">
+        <header>
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-img">IME</div>
+                    <div class="logo-text">
+                        <h1>I.M.E Plastic</h1>
+                        <p>Contact Management System</p>
                     </div>
-                    <div class="stat-icon">💬</div>
+                </div>
+                <div class="user-info">
+                    <div class="user-details">
+                        <h3>Admin User</h3>
+                        <p>Administrator</p>
+                    </div>
+                    <div class="user-avatar">AU</div>
+                    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
                 </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div>
-                        <div class="stat-number" id="newCount">0</div>
-                        <div class="stat-label">New Messages</div>
-                        <div class="stat-change">↑ Unread</div>
-                    </div>
-                    <div class="stat-icon">📧</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div>
-                        <div class="stat-number" id="respondedCount">0</div>
-                        <div class="stat-label">Responded</div>
-                        <div class="stat-change">↑ This month</div>
-                    </div>
-                    <div class="stat-icon">✅</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div>
-                        <div class="stat-number" id="todayCount">0</div>
-                        <div class="stat-label">Today</div>
-                        <div class="stat-change">↑ Last 24 hours</div>
-                    </div>
-                    <div class="stat-icon">📊</div>
-                </div>
-            </div>
-        </div>
+        </header>
 
-        <div class="content-section">
-            <div class="section-header">
-                <h2 class="section-title">Contact Messages</h2>
-                <div class="section-actions">
-                    <button class="btn btn-secondary" onclick="markAllRead()">✓ Mark All Read</button>
-                    <button class="btn btn-primary" onclick="exportMessages()">📥 Export Data</button>
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number" id="totalCount">0</div>
+                            <div class="stat-label">Total Messages</div>
+                            <div class="stat-change">↑ All time</div>
+                        </div>
+                        <div class="stat-icon">💬</div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="controls">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search messages..." onkeyup="searchMessages()">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number" id="newCount">0</div>
+                            <div class="stat-label">New Messages</div>
+                            <div class="stat-change">↑ Unread</div>
+                        </div>
+                        <div class="stat-icon">📧</div>
+                    </div>
                 </div>
-                <select class="filter-select" id="statusFilter" onchange="filterMessages()">
-                    <option value="all">All Status</option>
-                    <option value="new">New</option>
-                    <option value="read">Read</option>
-                    <option value="responded">Responded</option>
-                </select>
-                <select class="filter-select" id="dateFilter" onchange="filterMessages()">
-                    <option value="all">All Time</option>
-                    <option value="today">Today</option>
-                    <option value="week">This Week</option>
-                    <option value="month">This Month</option>
-                </select>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number" id="respondedCount">0</div>
+                            <div class="stat-label">Responded</div>
+                            <div class="stat-change">↑ This month</div>
+                        </div>
+                        <div class="stat-icon">✅</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number" id="todayCount">0</div>
+                            <div class="stat-label">Today</div>
+                            <div class="stat-change">↑ Last 24 hours</div>
+                        </div>
+                        <div class="stat-icon">📊</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="table-wrapper">
-                <table id="messagesTable">
-                    <thead>
-                        <tr>
-                            <th>Date & Time</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Message Preview</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="messagesBody">
-                        <!-- Messages will be populated here -->
-                    </tbody>
-                </table>
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Contact Messages</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-secondary" onclick="markAllRead()">✓ Mark All Read</button>
+                        <button class="btn btn-primary" onclick="exportMessages()">📥 Export Data</button>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search messages..." onkeyup="searchMessages()">
+                    </div>
+                    <select class="filter-select" id="statusFilter" onchange="filterMessages()">
+                        <option value="all">All Status</option>
+                        <option value="new">New</option>
+                        <option value="read">Read</option>
+                        <option value="responded">Responded</option>
+                    </select>
+                    <select class="filter-select" id="dateFilter" onchange="filterMessages()">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                    </select>
+                </div>
+
+                <div class="table-wrapper">
+                    <table id="messagesTable">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Message Preview</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="messagesBody">
+                            <!-- Messages will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -749,14 +931,67 @@
     </div>
 
     <script>
+        // Fixed admin password (Change this to your desired password)
+        const ADMIN_PASSWORD = 'admin@123';
+
         let messagesData = [];
         let currentMessageIndex = null;
+        let isLoggedIn = false;
 
+        // Check login status on page load
         window.addEventListener('DOMContentLoaded', function () {
+            checkLoginStatus();
+        });
+
+        function checkLoginStatus() {
+            const loggedIn = sessionStorage.getItem('ime_admin_logged_in');
+            if (loggedIn === 'true') {
+                showDashboard();
+            } else {
+                showLoginPage();
+            }
+        }
+
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('adminDashboard').classList.remove('active');
+            isLoggedIn = false;
+        }
+
+        function showDashboard() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('adminDashboard').classList.add('active');
+            isLoggedIn = true;
             loadMessages();
             updateStats();
             displayMessages();
+        }
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const password = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('errorMessage');
+
+            if (password === ADMIN_PASSWORD) {
+                sessionStorage.setItem('ime_admin_logged_in', 'true');
+                errorMsg.classList.remove('show');
+                showDashboard();
+            } else {
+                errorMsg.classList.add('show');
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            }
         });
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('ime_admin_logged_in');
+                showLoginPage();
+                document.getElementById('passwordInput').value = '';
+            }
+        }
 
         function loadMessages() {
             const stored = localStorage.getItem('ime_contact_messages');
@@ -778,7 +1013,7 @@
                     <tr>
                         <td colspan="7">
                             <div class="empty-state">
-                                <div class="empty-state-icon">📭</div>
+                                <div class="empty-state-icon">🔭</div>
                                 <h3>No Messages Yet</h3>
                                 <p>Contact form submissions will appear here</p>
                             </div>

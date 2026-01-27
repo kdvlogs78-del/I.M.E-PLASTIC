@@ -455,9 +455,14 @@
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
 
-        .submit-btn:hover {
+        .submit-btn:hover:not(:disabled) {
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(59, 130, 246, 0.5);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .success-message {
@@ -474,6 +479,23 @@
         }
 
         .success-message.show {
+            display: block;
+        }
+
+        .error-message {
+            display: none;
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-weight: 600;
+            text-align: center;
+            border: 2px solid #ef4444;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .error-message.show {
             display: block;
         }
 
@@ -762,6 +784,9 @@
                     <div class="success-message" id="successMessage">
                         ✅ Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.
                     </div>
+                    <div class="error-message" id="errorMessage">
+                        ❌ Sorry, there was an error sending your message. Please try again or contact us directly.
+                    </div>
                 </form>
             </div>
 
@@ -826,6 +851,114 @@
         </div>
     </footer>
 
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCPqaylz5E3AZhLjCn7qOhkNyUm9irFKjI",
+            authDomain: "ime-plastic.firebaseapp.com",
+            projectId: "ime-plastic",
+            storageBucket: "ime-plastic.firebasestorage.app",
+            messagingSenderId: "563605582233",
+            appId: "1:563605582233:web:118727ccc4125f3ac2e308",
+            measurementId: "G-R12G34E476"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Form submission handler
+        document.getElementById('contactForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Disable submit button
+            const submitBtn = this.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending... ⏳';
+
+            // Get form values
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('userEmail').value;
+            const phone = document.getElementById('userPhone').value;
+            const company = document.getElementById('companyName').value;
+            const inquiryType = document.getElementById('inquiryType').value;
+            const message = document.getElementById('userMessage').value;
+
+            // Create message object
+            const messageData = {
+                firstName: firstName,
+                lastName: lastName,
+                fullName: `${firstName} ${lastName}`,
+                email: email,
+                phone: phone,
+                company: company || 'Not provided',
+                inquiryType: inquiryType,
+                message: message,
+                status: 'new',
+                createdAt: serverTimestamp(),
+                timestamp: Date.now()
+            };
+
+            try {
+                // Add to Firestore
+                const docRef = await addDoc(collection(db, "contactMessages"), messageData);
+                console.log("Document written with ID: ", docRef.id);
+
+                // Also save to localStorage as backup
+                let messages = [];
+                const stored = localStorage.getItem('ime_contact_messages');
+                if (stored) {
+                    messages = JSON.parse(stored);
+                }
+                messages.unshift({
+                    id: docRef.id,
+                    ...messageData,
+                    date: new Date().toLocaleDateString('en-GB'),
+                    time: new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+                });
+                localStorage.setItem('ime_contact_messages', JSON.stringify(messages));
+
+                // Show success message
+                const successMsg = document.getElementById('successMessage');
+                const errorMsg = document.getElementById('errorMessage');
+                successMsg.classList.add('show');
+                errorMsg.classList.remove('show');
+
+                // Reset form
+                this.reset();
+
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMsg.classList.remove('show');
+                }, 5000);
+
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                
+                // Show error message
+                const successMsg = document.getElementById('successMessage');
+                const errorMsg = document.getElementById('errorMessage');
+                errorMsg.classList.add('show');
+                successMsg.classList.remove('show');
+
+                // Hide error message after 5 seconds
+                setTimeout(() => {
+                    errorMsg.classList.remove('show');
+                }, 5000);
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message 📤';
+            }
+        });
+    </script>
+
     <script>
         // Header scroll effect
         window.addEventListener('scroll', () => {
@@ -852,71 +985,6 @@
                 nav.classList.remove('active');
                 menuToggle.textContent = '☰';
             });
-        });
-
-        // Form submission with enhanced localStorage integration
-        document.getElementById('contactForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            // Get form values
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('userEmail').value;
-            const phone = document.getElementById('userPhone').value;
-            const company = document.getElementById('companyName').value;
-            const inquiryType = document.getElementById('inquiryType').value;
-            const message = document.getElementById('userMessage').value;
-
-            // Get current date and time
-            const now = new Date();
-            const date = now.toLocaleDateString('en-GB');
-            const time = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-            const dateObj = now.toISOString().split('T')[0];
-
-            // Create message object
-            const messageData = {
-                id: 'msg_' + now.getTime(),
-                firstName: firstName,
-                lastName: lastName,
-                fullName: firstName + ' ' + lastName,
-                email: email,
-                phone: phone,
-                company: company || 'Not provided',
-                inquiryType: inquiryType,
-                message: message,
-                date: date,
-                time: time,
-                dateObj: dateObj,
-                status: 'new',
-                timestamp: now.getTime()
-            };
-
-            // Get existing messages from localStorage
-            let messages = [];
-            const stored = localStorage.getItem('ime_contact_messages');
-            if (stored) {
-                messages = JSON.parse(stored);
-            }
-
-            // Add new message to beginning of array
-            messages.unshift(messageData);
-
-            // Save back to localStorage
-            localStorage.setItem('ime_contact_messages', JSON.stringify(messages));
-
-            // Show success message
-            const successMsg = document.getElementById('successMessage');
-            successMsg.classList.add('show');
-
-            // Reset form
-            this.reset();
-
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                successMsg.classList.remove('show');
-            }, 5000);
-
-            console.log('Message saved successfully!', messageData);
         });
     </script>
 </body>

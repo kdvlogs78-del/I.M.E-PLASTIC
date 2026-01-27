@@ -595,7 +595,7 @@
             border-color: var(--primary);
         }
 
-        /* Messages Container */
+        /* Messages Section */
         .messages-section {
             background: var(--bg-card);
             border-radius: 20px;
@@ -604,96 +604,116 @@
             overflow: hidden;
         }
 
-        .message-card {
-            padding: 30px;
+        .messages-header {
+            padding: 30px 35px;
             border-bottom: 1px solid var(--border);
-            transition: all 0.3s ease;
-            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .message-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .messages-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
         }
 
-        .message-card:hover {
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .table-filters {
+            padding: 20px 35px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .messages-table-container {
+            overflow-x: auto;
+        }
+
+        .messages-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .messages-table thead {
+            background: var(--bg-main);
+        }
+
+        .messages-table th {
+            padding: 18px 20px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .messages-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s ease;
+        }
+
+        .messages-table tbody tr:hover {
             background: var(--bg-hover);
         }
 
-        .message-card:hover::before {
-            opacity: 1;
+        .messages-table td {
+            padding: 20px;
+            color: var(--text-primary);
+            font-size: 14px;
         }
 
-        .message-card:last-child {
-            border-bottom: none;
+        .date-time-cell {
+            color: var(--text-secondary);
+            font-size: 13px;
+            line-height: 1.5;
         }
 
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 18px;
+        .date-time-cell .date {
+            display: block;
+            font-weight: 600;
         }
 
-        .message-user {
-            display: flex;
-            gap: 15px;
-            align-items: start;
+        .date-time-cell .time {
+            display: block;
+            font-size: 12px;
         }
 
-        .message-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .message-info h4 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
+        .name-cell {
+            font-weight: 600;
             color: var(--text-primary);
         }
 
-        .message-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            font-size: 13px;
+        .email-cell {
             color: var(--text-secondary);
         }
 
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .phone-cell {
+            color: var(--text-secondary);
         }
 
-        .meta-icon {
-            font-size: 16px;
+        .preview-cell {
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: var(--text-secondary);
         }
 
-        .message-badges {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: flex-end;
-        }
-
-        .status-badge {
+        .table-status-badge {
+            display: inline-block;
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 11px;
@@ -702,86 +722,273 @@
             letter-spacing: 0.5px;
         }
 
-        .status-new {
-            background: rgba(251, 191, 36, 0.2);
+        .table-status-new {
+            background: rgba(251, 191, 36, 0.15);
             color: var(--warning);
             border: 1px solid rgba(251, 191, 36, 0.3);
         }
 
-        .status-read {
-            background: rgba(16, 185, 129, 0.2);
+        .table-status-read {
+            background: rgba(16, 185, 129, 0.15);
             color: var(--success);
             border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
-        .inquiry-badge {
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            background: var(--bg-main);
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
+        .table-status-responded {
+            background: rgba(37, 99, 235, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(37, 99, 235, 0.3);
         }
 
-        .message-content {
-            margin: 20px 0;
-            padding: 20px;
-            background: var(--bg-main);
-            border-radius: 12px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            font-size: 14px;
-            border: 1px solid var(--border);
-        }
-
-        .message-actions {
+        .actions-cell {
             display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+            gap: 8px;
         }
 
-        .action-btn {
-            padding: 10px 18px;
+        .action-icon-btn {
+            width: 36px;
+            height: 36px;
             border: none;
             border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s ease;
         }
 
-        .btn-mark-read {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+        .btn-view {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
         }
 
-        .btn-mark-read:hover {
-            background: rgba(16, 185, 129, 0.3);
+        .btn-view:hover {
+            background: rgba(37, 99, 235, 0.2);
+            transform: scale(1.05);
         }
 
-        .btn-mark-new {
-            background: rgba(251, 191, 36, 0.2);
-            color: var(--warning);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-        }
-
-        .btn-mark-new:hover {
-            background: rgba(251, 191, 36, 0.3);
-        }
-
-        .btn-delete {
-            background: rgba(239, 68, 68, 0.2);
+        .btn-delete-icon {
+            background: rgba(239, 68, 68, 0.1);
             color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
-        .btn-delete:hover {
-            background: rgba(239, 68, 68, 0.3);
+        .btn-delete-icon:hover {
+            background: rgba(239, 68, 68, 0.2);
+            transform: scale(1.05);
+        }
+
+        .loading-cell {
+            text-align: center;
+            padding: 80px 30px !important;
+        }
+
+        .loading-cell .spinner {
+            margin: 0 auto 20px;
+        }
+
+        .loading-cell p {
+            color: var(--text-secondary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: 24px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            padding: 30px 35px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--bg-hover);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-main);
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 35px;
+            overflow-y: auto;
+            max-height: calc(90vh - 200px);
+        }
+
+        .modal-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .modal-info-item {
+            background: var(--bg-main);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .modal-info-item label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .modal-info-item .value {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .modal-message {
+            margin-top: 30px;
+        }
+
+        .modal-message label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .modal-message-content {
+            background: var(--bg-main);
+            padding: 25px;
+            border-radius: 12px;
+            line-height: 1.8;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            font-size: 15px;
+        }
+
+        .modal-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 12px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Responsive Table */
+        @media (max-width: 1200px) {
+            .messages-table th:nth-child(4),
+            .messages-table td:nth-child(4) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .messages-table th:nth-child(5),
+            .messages-table td:nth-child(5) {
+                display: none;
+            }
+
+            .modal-info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .messages-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+            }
+
+            .header-actions {
+                justify-content: space-between;
+            }
+
+            .table-filters {
+                flex-direction: column;
+            }
+
+            .filter-group {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .messages-table th:nth-child(3),
+            .messages-table td:nth-child(3) {
+                display: none;
+            }
         }
 
         /* Loading & Empty States */
@@ -954,23 +1161,6 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="top-bar">
-                <div>
-                    <h1>Contact Messages</h1>
-                    <p style="color: var(--text-secondary); margin-top: 5px;">Manage and respond to customer inquiries</p>
-                </div>
-                <div class="top-bar-actions">
-                    <button class="btn btn-secondary" id="markAllReadBtn">
-                        <span>✓</span>
-                        <span>Mark All Read</span>
-                    </button>
-                    <button class="btn btn-primary" id="exportBtn">
-                        <span>📥</span>
-                        <span>Export Data</span>
-                    </button>
-                </div>
-            </div>
-
             <!-- Stats Grid -->
             <div class="stats-grid">
                 <div class="stat-card">
@@ -1015,42 +1205,86 @@
                 </div>
             </div>
 
-            <!-- Filters -->
-            <div class="filters-section">
-                <div class="filters-grid">
-                    <div class="search-box">
-                        <span class="search-icon">🔍</span>
-                        <input type="text" id="searchInput" placeholder="Search by name, email, message, or company...">
-                    </div>
-                    <select class="filter-select" id="statusFilter">
-                        <option value="all">All Status</option>
-                        <option value="new">New</option>
-                        <option value="read">Read</option>
-                    </select>
-                    <select class="filter-select" id="inquiryFilter">
-                        <option value="all">All Inquiries</option>
-                        <option value="general">General Inquiry</option>
-                        <option value="quote">Request a Quote</option>
-                        <option value="product">Product Information</option>
-                        <option value="support">Technical Support</option>
-                        <option value="partnership">Partnership</option>
-                    </select>
-                    <select class="filter-select" id="sortFilter">
-                        <option value="newest">Newest First</option>
-                        <option value="oldest">Oldest First</option>
-                    </select>
-                </div>
-            </div>
-
             <!-- Messages -->
             <div class="messages-section" id="messagesContainer">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <h3>Loading Messages...</h3>
-                    <p>Please wait while we fetch your contact messages</p>
+                <div class="messages-header">
+                    <h2>Contact Messages</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" id="markAllReadBtn">
+                            <span>✓</span>
+                            <span>Mark All Read</span>
+                        </button>
+                        <button class="btn btn-primary" id="exportBtn">
+                            <span>📥</span>
+                            <span>Export Data</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-filters">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="searchInput" placeholder="Search messages...">
+                    </div>
+                    <div class="filter-group">
+                        <select class="filter-select" id="statusFilter">
+                            <option value="all">All Status</option>
+                            <option value="new">New</option>
+                            <option value="read">Read</option>
+                        </select>
+                        <select class="filter-select" id="sortFilter">
+                            <option value="newest">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="messages-table-container">
+                    <table class="messages-table">
+                        <thead>
+                            <tr>
+                                <th>DATE & TIME</th>
+                                <th>NAME</th>
+                                <th>EMAIL</th>
+                                <th>PHONE</th>
+                                <th>MESSAGE PREVIEW</th>
+                                <th>STATUS</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="messagesTableBody">
+                            <tr>
+                                <td colspan="7" class="loading-cell">
+                                    <div class="spinner"></div>
+                                    <p>Loading messages...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <h3>📭 No Messages Found</h3>
+                    <p>Try adjusting your filters or search terms</p>
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Message View Modal -->
+    <div class="modal" id="messageModal">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Message Details</h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
     </div>
 
     <!-- Firebase SDK -->
@@ -1169,101 +1403,173 @@
         // Filter messages
         function filterMessages() {
             const statusFilter = document.getElementById('statusFilter').value;
-            const inquiryFilter = document.getElementById('inquiryFilter').value;
             const sortFilter = document.getElementById('sortFilter').value;
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
 
             filteredMessages = allMessages.filter(msg => {
                 const matchesStatus = statusFilter === 'all' || msg.status === statusFilter;
-                const matchesInquiry = inquiryFilter === 'all' || msg.inquiryType === inquiryFilter;
                 const matchesSearch = searchTerm === '' || 
-                    msg.fullName.toLowerCase().includes(searchTerm) ||
+                    (msg.fullName && msg.fullName.toLowerCase().includes(searchTerm)) ||
                     msg.email.toLowerCase().includes(searchTerm) ||
                     msg.message.toLowerCase().includes(searchTerm) ||
                     (msg.company && msg.company.toLowerCase().includes(searchTerm));
 
-                return matchesStatus && matchesInquiry && matchesSearch;
-            });
+                // Time filter
+                let matchesTime = true;
+                if (sortFilter !== 'newest') {
+                    const now = new Date();
+                    const msgDate = msg.timestamp;
+                    
+                    if (sortFilter === 'today') {
+                        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                        matchesTime = msgDate >= today;
+                    } else if (sortFilter === 'week') {
+                        const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        matchesTime = msgDate >= weekAgo;
+                    } else if (sortFilter === 'month') {
+                        const monthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+                        matchesTime = msgDate >= monthAgo;
+                    }
+                }
 
-            // Apply sorting
-            if (sortFilter === 'oldest') {
-                filteredMessages.reverse();
-            }
+                return matchesStatus && matchesSearch && matchesTime;
+            });
 
             renderMessages();
         }
 
         // Render messages
         function renderMessages() {
-            const container = document.getElementById('messagesContainer');
+            const tbody = document.getElementById('messagesTableBody');
+            const emptyState = document.getElementById('emptyState');
             
             if (filteredMessages.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <h3>📭 No Messages Found</h3>
-                        <p>Try adjusting your filters or search terms</p>
-                    </div>
-                `;
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
                 return;
             }
 
-            container.innerHTML = filteredMessages.map(msg => {
-                const initials = msg.fullName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-                return `
-                    <div class="message-card">
-                        <div class="message-header">
-                            <div class="message-user">
-                                <div class="message-avatar">${initials}</div>
-                                <div class="message-info">
-                                    <h4>${msg.fullName}</h4>
-                                    <div class="message-meta">
-                                        <span class="meta-item">
-                                            <span class="meta-icon">📧</span>
-                                            ${msg.email}
-                                        </span>
-                                        <span class="meta-item">
-                                            <span class="meta-icon">📞</span>
-                                            ${msg.phone}
-                                        </span>
-                                        ${msg.company ? `
-                                        <span class="meta-item">
-                                            <span class="meta-icon">🏢</span>
-                                            ${msg.company}
-                                        </span>
-                                        ` : ''}
-                                        <span class="meta-item">
-                                            <span class="meta-icon">📅</span>
-                                            ${msg.date} at ${msg.time}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="message-badges">
-                                <span class="status-badge status-${msg.status}">${msg.status === 'new' ? 'New' : 'Read'}</span>
-                                <span class="inquiry-badge">${msg.inquiryType}</span>
-                            </div>
+            emptyState.style.display = 'none';
+            tbody.innerHTML = filteredMessages.map(msg => `
+                <tr>
+                    <td>
+                        <div class="date-time-cell">
+                            <span class="date">${msg.date}</span>
+                            <span class="time">${msg.time}</span>
                         </div>
-                        <div class="message-content">${msg.message}</div>
-                        <div class="message-actions">
-                            ${msg.status === 'new' ? 
-                                `<button class="action-btn btn-mark-read" onclick="markAsRead('${msg.id}')">
-                                    <span>✓</span>
-                                    <span>Mark as Read</span>
-                                </button>` :
-                                `<button class="action-btn btn-mark-new" onclick="markAsNew('${msg.id}')">
-                                    <span>↻</span>
-                                    <span>Mark as New</span>
-                                </button>`
-                            }
-                            <button class="action-btn btn-delete" onclick="deleteMessage('${msg.id}')">
-                                <span>🗑</span>
-                                <span>Delete</span>
+                    </td>
+                    <td class="name-cell">${msg.fullName || 'undefined'}</td>
+                    <td class="email-cell">${msg.email}</td>
+                    <td class="phone-cell">${msg.phone}</td>
+                    <td class="preview-cell">${msg.message.substring(0, 50)}${msg.message.length > 50 ? '...' : ''}</td>
+                    <td>
+                        <span class="table-status-badge table-status-${msg.status}">
+                            ${msg.status === 'new' ? 'Read' : msg.status === 'read' ? 'Read' : 'Responded'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="actions-cell">
+                            <button class="action-icon-btn btn-view" onclick="viewMessage('${msg.id}')" title="View Message">
+                                👁
+                            </button>
+                            <button class="action-icon-btn btn-delete-icon" onclick="deleteMessage('${msg.id}')" title="Delete Message">
+                                🗑
                             </button>
                         </div>
-                    </div>
-                `;
-            }).join('');
+                    </td>
+                </tr>
+            `).join('');
         }
+
+        // View message in modal
+        window.viewMessage = async (id) => {
+            const msg = allMessages.find(m => m.id === id);
+            if (!msg) return;
+
+            const modal = document.getElementById('messageModal');
+            const modalBody = document.getElementById('modalBody');
+
+            modalBody.innerHTML = `
+                <div class="modal-info-grid">
+                    <div class="modal-info-item">
+                        <label>Full Name</label>
+                        <div class="value">${msg.fullName || 'undefined'}</div>
+                    </div>
+                    <div class="modal-info-item">
+                        <label>Email Address</label>
+                        <div class="value">${msg.email}</div>
+                    </div>
+                    <div class="modal-info-item">
+                        <label>Phone Number</label>
+                        <div class="value">${msg.phone}</div>
+                    </div>
+                    <div class="modal-info-item">
+                        <label>Company</label>
+                        <div class="value">${msg.company || 'Not provided'}</div>
+                    </div>
+                    <div class="modal-info-item">
+                        <label>Inquiry Type</label>
+                        <div class="value">${msg.inquiryType || 'General'}</div>
+                    </div>
+                    <div class="modal-info-item">
+                        <label>Date & Time</label>
+                        <div class="value">${msg.date} at ${msg.time}</div>
+                    </div>
+                </div>
+                <div class="modal-message">
+                    <label>Message</label>
+                    <div class="modal-message-content">${msg.message}</div>
+                </div>
+                <div class="modal-actions">
+                    ${msg.status === 'new' ? 
+                        `<button class="btn btn-primary" onclick="markAsReadAndClose('${msg.id}')">
+                            <span>✓</span>
+                            <span>Mark as Read</span>
+                        </button>` :
+                        `<button class="btn btn-secondary" onclick="markAsNew('${msg.id}')">
+                            <span>↻</span>
+                            <span>Mark as New</span>
+                        </button>`
+                    }
+                    <button class="btn btn-danger" onclick="deleteMessageAndClose('${msg.id}')">
+                        <span>🗑</span>
+                        <span>Delete Message</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                </div>
+            `;
+
+            modal.classList.add('active');
+
+            // Mark as read automatically when viewing
+            if (msg.status === 'new') {
+                try {
+                    await updateDoc(doc(db, "contactMessages", id), { status: 'read' });
+                } catch (error) {
+                    console.error('Error auto-marking as read:', error);
+                }
+            }
+        };
+
+        // Close modal
+        window.closeModal = () => {
+            const modal = document.getElementById('messageModal');
+            modal.classList.remove('active');
+        };
+
+        // Mark as read and close
+        window.markAsReadAndClose = async (id) => {
+            await markAsRead(id);
+            closeModal();
+        };
+
+        // Delete message and close
+        window.deleteMessageAndClose = async (id) => {
+            if (confirm('Are you sure you want to delete this message? This action cannot be undone.')) {
+                await deleteMessage(id);
+                closeModal();
+            }
+        };
 
         // Mark as read
         window.markAsRead = async (id) => {
@@ -1353,7 +1659,6 @@
 
         // Filter event listeners
         document.getElementById('statusFilter').addEventListener('change', filterMessages);
-        document.getElementById('inquiryFilter').addEventListener('change', filterMessages);
         document.getElementById('sortFilter').addEventListener('change', filterMessages);
         document.getElementById('searchInput').addEventListener('input', filterMessages);
     </script>

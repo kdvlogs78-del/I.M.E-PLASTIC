@@ -942,6 +942,107 @@
             border-top: 1px solid var(--border);
         }
 
+        /* View All Data Modal */
+        .modal-large {
+            max-width: 95%;
+            max-height: 95vh;
+        }
+
+        .data-view-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table-wrapper {
+            overflow: auto;
+            max-height: calc(95vh - 250px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table thead {
+            position: sticky;
+            top: 0;
+            background: var(--bg-main);
+            z-index: 10;
+        }
+
+        .data-table th {
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .data-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .data-table td {
+            padding: 12px 15px;
+            color: var(--text-primary);
+            border-right: 1px solid var(--border);
+        }
+
+        .data-table td:last-child {
+            border-right: none;
+        }
+
+        .data-table .message-col {
+            max-width: 300px;
+            white-space: normal;
+            line-height: 1.5;
+        }
+
+        .data-table .index-col {
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .copy-success {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            animation: slideInRight 0.3s ease-out;
+            z-index: 10000;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         /* Responsive Table */
         @media (max-width: 1200px) {
             .messages-table th:nth-child(4),
@@ -1144,13 +1245,9 @@
                     <span class="nav-icon">📬</span>
                     <span>Messages</span>
                 </div>
-                <div class="nav-item">
+                <div class="nav-item" id="viewAllDataBtn">
                     <span class="nav-icon">📊</span>
-                    <span>Analytics</span>
-                </div>
-                <div class="nav-item">
-                    <span class="nav-icon">⚙️</span>
-                    <span>Settings</span>
+                    <span>View All Data</span>
                 </div>
                 <div class="nav-item" id="logoutBtn">
                     <span class="nav-icon">🚪</span>
@@ -1287,6 +1384,50 @@
         </div>
     </div>
 
+    <!-- View All Data Modal -->
+    <div class="modal" id="allDataModal">
+        <div class="modal-overlay" onclick="closeAllDataModal()"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>All Messages Data</h2>
+                <button class="modal-close" onclick="closeAllDataModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="data-view-controls">
+                    <button class="btn btn-primary" onclick="exportAllData()">
+                        <span>📥</span>
+                        <span>Export to CSV</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="copyAllData()">
+                        <span>📋</span>
+                        <span>Copy to Clipboard</span>
+                    </button>
+                </div>
+                <div class="data-table-wrapper">
+                    <table class="data-table" id="allDataTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Company</th>
+                                <th>Inquiry Type</th>
+                                <th>Status</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allDataTableBody">
+                            <!-- Data will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -1357,6 +1498,121 @@
         document.getElementById('logoutBtn').addEventListener('click', () => {
             signOut(auth);
         });
+
+        // View All Data button
+        document.getElementById('viewAllDataBtn').addEventListener('click', () => {
+            showAllDataModal();
+        });
+
+        // Show All Data Modal
+        function showAllDataModal() {
+            const modal = document.getElementById('allDataModal');
+            const tbody = document.getElementById('allDataTableBody');
+            
+            tbody.innerHTML = allMessages.map((msg, index) => `
+                <tr>
+                    <td class="index-col">${index + 1}</td>
+                    <td>${msg.date}</td>
+                    <td>${msg.time}</td>
+                    <td>${msg.fullName || 'undefined'}</td>
+                    <td>${msg.email}</td>
+                    <td>${msg.phone}</td>
+                    <td>${msg.company || 'N/A'}</td>
+                    <td>${msg.inquiryType || 'General'}</td>
+                    <td>
+                        <span class="table-status-badge table-status-${msg.status}">
+                            ${msg.status}
+                        </span>
+                    </td>
+                    <td class="message-col">${msg.message}</td>
+                </tr>
+            `).join('');
+            
+            modal.classList.add('active');
+        }
+
+        // Close All Data Modal
+        window.closeAllDataModal = () => {
+            const modal = document.getElementById('allDataModal');
+            modal.classList.remove('active');
+        };
+
+        // Export All Data
+        window.exportAllData = () => {
+            if (allMessages.length === 0) {
+                alert('No messages to export');
+                return;
+            }
+
+            const csvContent = [
+                ['#', 'Date', 'Time', 'Name', 'Email', 'Phone', 'Company', 'Inquiry Type', 'Status', 'Message'].join(','),
+                ...allMessages.map((msg, index) => [
+                    index + 1,
+                    msg.date,
+                    msg.time,
+                    `"${msg.fullName || 'undefined'}"`,
+                    msg.email,
+                    msg.phone,
+                    `"${msg.company || 'N/A'}"`,
+                    msg.inquiryType || 'General',
+                    msg.status,
+                    `"${msg.message.replace(/"/g, '""')}"`
+                ].join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `all-contact-messages-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showCopySuccess('Data exported successfully!');
+        };
+
+        // Copy All Data to Clipboard
+        window.copyAllData = async () => {
+            if (allMessages.length === 0) {
+                alert('No messages to copy');
+                return;
+            }
+
+            const textContent = allMessages.map((msg, index) => {
+                return `
+#${index + 1}
+Date: ${msg.date} ${msg.time}
+Name: ${msg.fullName || 'undefined'}
+Email: ${msg.email}
+Phone: ${msg.phone}
+Company: ${msg.company || 'N/A'}
+Inquiry Type: ${msg.inquiryType || 'General'}
+Status: ${msg.status}
+Message: ${msg.message}
+${'='.repeat(80)}
+                `.trim();
+            }).join('\n\n');
+
+            try {
+                await navigator.clipboard.writeText(textContent);
+                showCopySuccess('All data copied to clipboard!');
+            } catch (error) {
+                console.error('Failed to copy:', error);
+                alert('Failed to copy data to clipboard');
+            }
+        };
+
+        // Show copy success notification
+        function showCopySuccess(message) {
+            const notification = document.createElement('div');
+            notification.className = 'copy-success';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
 
         // Load messages from Firestore
         function loadMessages() {
